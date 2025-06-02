@@ -31,17 +31,21 @@ class PlanService implements PlanServiceInterface
 
         $this->planRepository->save($plan);
 
+        // Fetch the saved plan to ensure we have all data including features
+        $savedPlan = $this->planRepository->findById($plan->getId());
+
         return PlanDTO::fromArray([
-            'id' => $plan->getId(),
-            'name' => $plan->getName(),
-            'monthly_price' => $plan->getMonthlyPrice()->getAmount(),
-            'user_limit' => $plan->getUserLimit(),
+            'id' => $savedPlan->getId(),
+            'name' => $savedPlan->getName(),
+            'monthly_price' => $savedPlan->getMonthlyPrice()->getAmount(),
+            'user_limit' => $savedPlan->getUserLimit(),
             'features' => array_map(
                 fn($feature) => [
+                    'id' => $feature->getId(),
                     'name' => $feature->getName(),
                     'description' => $feature->getDescription(),
                 ],
-                $plan->getFeatures()
+                $savedPlan->getFeatures()
             ),
         ]);
     }

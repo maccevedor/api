@@ -56,8 +56,10 @@ class EloquentCompanyRepository implements CompanyRepositoryInterface
         $model->email = $company->getEmail()->getValue();
         $model->save();
 
+        $company->setId($model->id);
+
         if ($subscription = $company->getActiveSubscription()) {
-            $model->activeSubscription()->updateOrCreate(
+            $subscriptionModel = $model->activeSubscription()->updateOrCreate(
                 ['company_id' => $model->id],
                 [
                     'plan_id' => $subscription->getPlan()->getId(),
@@ -66,6 +68,7 @@ class EloquentCompanyRepository implements CompanyRepositoryInterface
                     'end_date' => $subscription->getEndDate(),
                 ]
             );
+            $subscription->setId($subscriptionModel->id);
         }
     }
 

@@ -28,8 +28,7 @@ class PlanController
         $plan = $this->planService->createPlan($planDTO);
 
         return response()->json([
-            'message' => 'Plan created successfully',
-            'plan' => $plan->toArray()
+            'data' => $plan->toArray()
         ], 201);
     }
 
@@ -41,7 +40,9 @@ class PlanController
             return response()->json(['message' => 'Plan not found'], 404);
         }
 
-        return response()->json(['plan' => $plan->toArray()]);
+        return response()->json([
+            'data' => $plan->toArray()
+        ]);
     }
 
     public function index(): JsonResponse
@@ -49,7 +50,7 @@ class PlanController
         $plans = $this->planService->findAllPlans();
 
         return response()->json([
-            'plans' => array_map(fn($plan) => $plan->toArray(), $plans)
+            'data' => array_map(fn($plan) => $plan->toArray(), $plans)
         ]);
     }
 
@@ -71,8 +72,7 @@ class PlanController
         $updatedPlan = $this->planService->updatePlan($planDTO);
 
         return response()->json([
-            'message' => 'Plan updated successfully',
-            'plan' => $updatedPlan->toArray()
+            'data' => $updatedPlan->toArray()
         ]);
     }
 
@@ -86,6 +86,6 @@ class PlanController
 
         $this->planService->deletePlan($id);
 
-        return response()->json(['message' => 'Plan deleted successfully']);
+        return response()->json(null, 204);
     }
 }

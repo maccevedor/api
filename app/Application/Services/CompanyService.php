@@ -157,9 +157,10 @@ class CompanyService implements CompanyServiceInterface
             'name' => $company->getName(),
             'email' => $company->getEmail()->getValue(),
             'active_subscription' => [
+                'id' => $subscription->getId(),
                 'plan_id' => $subscription->getPlan()->getId(),
-                'starts_at' => $subscription->getStartDate()->format('Y-m-d H:i:s'),
-                'ends_at' => $subscription->getEndDate()?->format('Y-m-d H:i:s'),
+                'start_date' => $subscription->getStartDate()->format('Y-m-d H:i:s'),
+                'end_date' => $subscription->getEndDate()?->format('Y-m-d H:i:s'),
                 'status' => $subscription->getStatus()->getValue()
             ]
         ]);

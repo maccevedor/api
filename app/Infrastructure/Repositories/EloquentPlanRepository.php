@@ -38,6 +38,8 @@ class EloquentPlanRepository implements PlanRepositoryInterface
             ]
         );
 
+        $plan->setId($planModel->id);
+
         // Save features
         $planModel->features()->delete();
         foreach ($plan->getFeatures() as $feature) {

@@ -110,4 +110,9 @@ class Company
     {
         return $this->activeSubscription !== null;
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 }

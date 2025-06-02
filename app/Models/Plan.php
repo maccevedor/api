@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Domain\Entities\Plan as PlanEntity;
 use App\Domain\ValueObjects\Money;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plan extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'monthly_price',
@@ -18,6 +21,11 @@ class Plan extends Model
     public function features(): HasMany
     {
         return $this->hasMany(PlanFeature::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 
     public function toEntity(): PlanEntity

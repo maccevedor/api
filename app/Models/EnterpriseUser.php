@@ -7,15 +7,22 @@ use App\Domain\ValueObjects\Email;
 use App\Domain\ValueObjects\Password;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EnterpriseUser extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'company_id',
         'last_login_at',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [

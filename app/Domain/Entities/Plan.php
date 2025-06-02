@@ -64,4 +64,9 @@ class Plan
             fn(Feature $existingFeature) => !$existingFeature->equals($feature)
         );
     }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 }
