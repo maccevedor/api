@@ -1,61 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Enterprise Subscription API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a Laravel-based REST API for managing companies (tenants), subscription plans, enterprise users (clients), and subscription history, following Domain-Driven Design (DDD) and Hexagonal Architecture principles.
 
-## About Laravel
+## Features
+- Companies (tenants) with single active plan and subscription history
+- Subscription plans with features and user limits
+- Enterprise users (clients) per company, managed by plan restrictions
+- Full CRUD for companies, plans, and clients
+- Subscription management (subscribe, cancel, list history)
+- OpenAPI (Swagger) documentation
+- Pest tests for all endpoints
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Structure
+- **Domain Layer**: Entities, Value Objects, Repositories
+- **Application Layer**: Services, DTOs, Interfaces
+- **Infrastructure Layer**: Eloquent Repositories, Models
+- **Presentation Layer**: Controllers, Requests, API routes
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Setup & Usage
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Install dependencies
+```bash
+composer install
+```
 
-## Learning Laravel
+### 2. Configure environment
+Copy `.env.example` to `.env` and set your database credentials.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. Run database migrations
+```bash
+php artisan migrate
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 4. (Optional) Seed the database
+```bash
+php artisan db:seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 5. Run the development server
+```bash
+php artisan serve --host=0.0.0.0 --port=8000
+```
+The API will be available at `http://localhost:8000/api`.
 
-## Laravel Sponsors
+### 6. Generate OpenAPI documentation
+```bash
+php artisan l5-swagger:generate
+```
+View the docs at: `http://localhost:8000/api/documentation`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 7. Run tests
+```bash
+./vendor/bin/pest
+```
 
-### Premium Partners
+## API Endpoints
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Plans
+- `GET /api/plans` — List all plans
+- `POST /api/plans` — Create a plan
+- `GET /api/plans/{id}` — Get plan details
+- `PUT /api/plans/{id}` — Update a plan
+- `DELETE /api/plans/{id}` — Delete a plan
 
-## Contributing
+### Companies
+- `GET /api/companies` — List all companies
+- `POST /api/companies` — Create a company
+- `GET /api/companies/{id}` — Get company details
+- `PUT /api/companies/{id}` — Update a company
+- `DELETE /api/companies/{id}` — Delete a company
+- `POST /api/companies/{id}/subscribe` — Subscribe to a plan
+- `POST /api/companies/{id}/cancel-subscription` — Cancel subscription
+- `GET /api/companies/{id}/subscriptions` — List all subscriptions (history)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Clients (Enterprise Users)
+- `GET /api/clients` — List all clients
+- `POST /api/clients` — Create a client
+- `GET /api/clients/{id}` — Get client details
+- `PUT /api/clients/{id}` — Update a client
+- `DELETE /api/clients/{id}` — Delete a client
+- `POST /api/clients/login` — Client login
 
-## Code of Conduct
+## Documentation
+- OpenAPI docs: `/api/documentation`
+- All endpoints are documented with request/response schemas and examples.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Development Steps Recap
+1. **Set up DDD structure**: Domain, Application, Infrastructure, Presentation layers
+2. **Created entities, value objects, repositories, DTOs, and services**
+3. **Implemented Eloquent models and repositories**
+4. **Created controllers and request validation classes**
+5. **Added OpenAPI (Swagger) documentation and configuration**
+6. **Added Pest tests and model factories**
+7. **Configured and generated API documentation**
+8. **Tested endpoints and fixed linter errors**
+9. **Documented all endpoints and usage in this README**
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+For any questions or contributions, please open an issue or submit a pull request.
